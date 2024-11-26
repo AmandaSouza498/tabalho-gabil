@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang= "pt-br">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Esse é um trabalho escolar</title>
+</head>
+<body>
+  
+  <h1>Jogo Quente e Frio</h1>
+  <style>
+      h1{
+        color: aquarine;
+        text-shadow: 1px 2px 2px black;
+      }
+  </style>
+      
+      <p>Pelo menos <strong>uma</strong> pessoa precisará estar presente, para que o jogo se inicie, o jogo funcionará da seguinte maneira: <strong>Números de 0 à 100 serão escolhidos pelo sistema</strong> e a pessoa deverá adivinhar que número entre 0 e 100 foi escolhido.
+Quanto mais próximo, o sistema informará se está quente e quanto mais distante, o sistema também informará se está frio.</p>
+  
+  <form action="acao.php" method="post">
+    <p>Aperte o <strong>play</strong> para iniciar o jogo</p>
+  </form>
+      <a href="index.html?acao=joke."><strong>PLAY</strong></a>
+</body>
+</html>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+       h1{
+         font-size: 24px;
+         color: hotpink;
+         margin-bottom: 10px;
+       }
+    
+    .input-area {
+         margin-bottom: 20px;
+    }
+    
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      width: 60%;
+    }
+    
+    button {
+      padding: 10px 20px:
+      font-size: 16px;
+      backgroud-color: blue-light;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: blue-dark;
+    }
+    
+    .feedback{
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    
+    .attendents {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    
+    .restart {
+      background-color: green;
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .restart:hover {
+      background-color: purple;
+    }
+   </style>
+</head>
+   </html>
+Reset.php
+
+<?php
+session_start();
+session_destroy(); 
+header('Location: index.php'); 
+exit;
+  Style.css
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #007bff;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+  a:houver {
+         Text-decoration: underline;
+}
+  <?php
+session_start();
+
+if (!isset($_SESSION['random_number'])) {
+    $_SESSION['random_number'] = rand(1, 100);
+    $_SESSION['attempts'] = 5;
+}
+
+$message = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $guess = (int)$_POST['guess'];
+    $_SESSION['attempts']++;
+
+    if ($guess === $_SESSION['random_number']) {
+        $message = "Parabéns! Você acertou em {$_SESSION['attempts']} 2 tentativas.";
+        unset($_SESSION['random_number']); 
+    } elseif (abs($guess - $_SESSION['random_number']) <= 10) {
+        $message = 'Quente! Você está perto!';
+    } else {
+        $message = 'Frio! Você está longe.';
+    }
+}
+?>
+    
+Index.php + html
+    <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Quente e Frio</title>
+    <link rel="stylesheet" href="style.css .css">
+</head>
+<body>
+    <div class="container">
+        <h1>Jogo Quente e Frio</h1>
+        <p>Tente adivinhar o número entre 0 e 100.</p>
+
+        <?php if ($message): ?>
+            <div class="message"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
+
+        <form method="post">
+            <input type="number" name="guess" min="0" max="100" required placeholder="Digite seu palpite">
+            <button type="submit">Enviar</button>
+        </form>
+
+        <p><a href="reset.php">Reiniciar Jogo</a></p>
+    </div>
+</body>
+</html>
